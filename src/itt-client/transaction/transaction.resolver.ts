@@ -28,7 +28,7 @@ export class TransactionResolver {
     @Query('transactionsConnection')
     @Permissions('itt-server:user')
     async getFundraisersConnection(@Args() args, @Info() info): Promise<BatchPayload> {
-      return this.prismaService.query.fundraisersConnection(args, info);
+      return this.prismaService.query.transactionsConnection(args, info);
     }
   
     @UseGuards(GqlAuthGuard, PermissionsGuard)
