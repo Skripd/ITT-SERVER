@@ -11,12 +11,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         cache: true,
         rateLimit: true,
         jwksRequestsPerMinute: 5,
-        jwksUri: `http://localhost:8080/auth/realms/itt/protocol/openid-connect/certs`,
+        jwksUri: `https://auth.armorer.nl/auth/realms/itt/protocol/openid-connect/certs`,
       }),
 
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       audience: `itt-server`,
-      issuer: `http://localhost:8080/auth/realms/itt`,
+      issuer: `https://auth.armorer.nl/auth/realms/itt`,
       algorithms: ['RS256'],
     });
   }
