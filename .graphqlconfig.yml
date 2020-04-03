@@ -3,7 +3,7 @@ projects:
       schemaPath: src/prisma/prisma-types.graphql
       extensions:
         endpoints:
-          default: http://armorer.nl:4466
+          default: http://localhost:4466
         codegen:
           - generator: prisma-binding
             language: typescript
