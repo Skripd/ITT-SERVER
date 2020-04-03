@@ -24,6 +24,13 @@ export class FundraiserResolver {
     async getFundraiser(@Args() args, @Info() info): Promise<Fundraiser> {
       return this.prismaService.query.fundraiser(args, info);
     }
+
+    @UseGuards(GqlAuthGuard, PermissionsGuard)
+    @Query('fundraisersConnection')
+    @Permissions('itt-server:user')
+    async getFundraisersConnection(@Args() args, @Info() info): Promise<Fundraiser> {
+      return this.prismaService.query.fundraisersConnection(args, info);
+    }
   
     @UseGuards(GqlAuthGuard, PermissionsGuard)
     @Mutation('createFundraiser')
@@ -61,9 +68,11 @@ export class FundraiserResolver {
     }
   
     // @UseGuards(GqlAuthGuard, PermissionsGuard)
-    // @Subscription('fundraiser')
+    @Subscription('fundraiser')
     // @Permissions('itt-server:user')
-    // onFundraiserMutation(@Args() args, @Info() info) {
-    //   return this.prismaService.subscription.fundraiser(args, info);
-    // }
+    onFundraiserMutation(@Args() args, @Info() info) {
+      console.log('arguments::\n', args);
+      console.log('\n\ninfo::\n', info);
+      return this.prismaService.subscription.fundraiser(args, info);
+    }
   }

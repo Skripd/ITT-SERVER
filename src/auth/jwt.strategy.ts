@@ -11,7 +11,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         cache: true,
         rateLimit: true,
         jwksRequestsPerMinute: 5,
-        jwksUri: `http://localhost:8080/auth/realms/emon/protocol/openid-connect/certs`
+        jwksUri: `http://localhost:8080/auth/realms/itt/protocol/openid-connect/certs`,
       }),
 
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),

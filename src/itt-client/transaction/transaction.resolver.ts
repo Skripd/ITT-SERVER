@@ -1,4 +1,4 @@
-import { Resolver, Query, Args, Info, Mutation } from '@nestjs/graphql';
+import { Resolver, Query, Args, Info, Mutation, Subscription } from '@nestjs/graphql';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Transaction, BatchPayload } from 'src/prisma/prisma.binding';
 import { UseGuards } from '@nestjs/common';
@@ -22,6 +22,13 @@ export class TransactionResolver {
     @Permissions('itt-server:user')
     async getTransaction(@Args() args, @Info() info): Promise<Transaction> {
       return this.prismaService.query.transaction(args, info);
+    }
+
+    @UseGuards(GqlAuthGuard, PermissionsGuard)
+    @Query('transactionsConnection')
+    @Permissions('itt-server:user')
+    async getFundraisersConnection(@Args() args, @Info() info): Promise<BatchPayload> {
+      return this.prismaService.query.fundraisersConnection(args, info);
     }
   
     @UseGuards(GqlAuthGuard, PermissionsGuard)
@@ -60,9 +67,10 @@ export class TransactionResolver {
     }
   
     // @UseGuards(GqlAuthGuard, PermissionsGuard)
-    // @Subscription('transaction')
     // @Permissions('itt-server:user')
-    // onTransactionMutation(@Args() args, @Info() info) {
-    //   return this.prismaService.subscription.transaction(args, info);
-    // }
+    @Subscription('transaction')
+    onTransactionMutation(@Args() args, @Info() info) {
+      console.log(args, '\n\n' ,JSON.stringify(info));
+      return this.prismaService.subscription.transaction(args, info);
+     }
 }
